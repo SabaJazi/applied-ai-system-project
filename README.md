@@ -74,7 +74,7 @@ Example of normal user profile output:
 
 Example of Edge/Adversarial user profile outputs:
 
-![](advers_1.png)   ![](radvers_2.png)   ![](advers_3.png)
+![](advers_1.png)   ![](advers_2.png)   ![](advers_3.png)
 
 ---
 
