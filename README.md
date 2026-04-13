@@ -66,7 +66,7 @@ Then diversity rule (avoid too many songs from same artist)
 
 
 You can include a simple diagram or bullet list if helpful.
-![](flowchart.svg)
+![](flowchart_v2.svg)
 
 ---
 

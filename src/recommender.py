@@ -1,5 +1,6 @@
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
+import csv
 
 @dataclass
 class Song:
@@ -48,11 +49,36 @@ class Recommender:
 def load_songs(csv_path: str) -> List[Dict]:
     """
     Loads songs from a CSV file.
+    Converts numeric columns to float/int for calculation.
     Required by src/main.py
     """
-    # TODO: Implement CSV loading logic
-    print(f"Loading songs from {csv_path}...")
-    return []
+    songs = []
+    numeric_fields = {
+        'id': int,
+        'energy': float,
+        'tempo_bpm': int,
+        'valence': float,
+        'danceability': float,
+        'acousticness': float,
+    }
+    
+    try:
+        with open(csv_path, 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Convert numeric strings to their proper types
+                for field, field_type in numeric_fields.items():
+                    if field in row:
+                        row[field] = field_type(row[field])
+                songs.append(row)
+        print(f"Loaded {len(songs)} songs from {csv_path}")
+        return songs
+    except FileNotFoundError:
+        print(f"Error: File {csv_path} not found.")
+        return []
+    except Exception as e:
+        print(f"Error loading songs: {e}")
+        return []
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """
