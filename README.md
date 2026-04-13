@@ -16,16 +16,54 @@ Replace this paragraph with your own summary of what your version does.
 ---
 
 ## How The System Works
+Major streaming platforms like YouTube and Spotify utilize a multi-stage hybrid pipeline that integrates collaborative filtering—recommending items based on similar user behavior—with content-based filtering, which matches item metadata to a user's established preferences. The process begins with a retrieval stage (candidate generation) to narrow billions of items down to a few hundred using user-item embeddings, followed by a sophisticated ranking stage that scores these candidates based on deep behavioral signals like watch time and engagement. To ensure long-term satisfaction rather than just immediate clicks, the system applies a final layer of re-ranking to enforce business rules, diversity, and content safety, constantly refining itself through continuous learning and A/B testing.
 
 Explain your design in plain language.
+What features does each `Song` use in your system
+  - For example: genre, mood, energy, tempo 
 
-Some prompts to answer:
+Algorithm Recipe:
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
+1-We represent each song with:
+- Categorical features: genre, mood
+- Numeric features: energy, tempo_bpm, valence, danceability, acousticness
+2-We build a user preference profile with:
+- Preferred genre (e.g., lofi)
+- Preferred mood (e.g., chill)
+- Numeric targets (p_f) for each numeric feature, each scaled to ([0,1])
+3-Compute a per-feature score for each song.
+
+4-Combine feature scores into one total song score using weights.
+
+5-Rank songs by total score and return top (K).
+
 - What information does your `UserProfile` store
 - How does your `Recommender` compute a score for each song
+Scoring Rule (one song)
+For a numeric feature (f), we score by closeness to the user target, not by “higher is better”:
+
+sf(i)=1−∣xi,f −pf∣
+
+- (x_{i,f}): song (i)'s normalized value for feature (f)
+- (p_f): user preference for feature (f)
+- Since both are in ([0,1]), (s_f(i)\in[0,1])
+- Closer means larger score, exact match gives (1)
+
+
 - How do you choose which songs to recommend
+
+Ranking Rule (list of songs)
+
+After scoring all songs:
+
+Sort by (S(i)) descending.
+Remove songs the user already consumed (if you track history).
+Return top (K) songs.
+Optional tie-breakers:
+Higher genre match first
+Then closer energy/tempo
+Then diversity rule (avoid too many songs from same artist)
+
 
 You can include a simple diagram or bullet list if helpful.
 
