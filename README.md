@@ -16,7 +16,7 @@ Replace this paragraph with your own summary of what your version does.
 ---
 
 ## How The System Works
-Major streaming platforms like YouTube and Spotify utilize a multi-stage hybrid pipeline that integrates collaborative filtering—recommending items based on similar user behavior—with content-based filtering, which matches item metadata to a user's established preferences. The process begins with a retrieval stage (candidate generation) to narrow billions of items down to a few hundred using user-item embeddings, followed by a sophisticated ranking stage that scores these candidates based on deep behavioral signals like watch time and engagement. To ensure long-term satisfaction rather than just immediate clicks, the system applies a final layer of re-ranking to enforce business rules, diversity, and content safety, constantly refining itself through continuous learning and A/B testing.
+Major streaming platforms like YouTube and Spotify utilize a multi-stage hybrid pipeline that integrates collaborative filtering, recommending items based on similar user behavior, with content-based filtering, which matches item metadata to a user's established preferences. The process begins with a retrieval stage (candidate generation) to narrow billions of items down to a few hundred using user-item embeddings, followed by a sophisticated ranking stage that scores these candidates based on deep behavioral signals like watch time and engagement. To ensure long-term satisfaction rather than just immediate clicks, the system applies a final layer of re-ranking to enforce business rules, diversity, and content safety, constantly refining itself through continuous learning and A/B testing.
 
 Explain your design in plain language.
 What features does each `Song` use in your system
@@ -66,6 +66,7 @@ Then diversity rule (avoid too many songs from same artist)
 
 
 You can include a simple diagram or bullet list if helpful.
+![](flowchart.svg)
 
 ---
 
