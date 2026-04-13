@@ -36,22 +36,21 @@ class Recommender:
     Required by tests/test_recommender.py
     """
     def __init__(self, songs: List[Song]):
+        """Initialize the recommender with a list of songs."""
         self.songs = songs
 
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
+        """Return up to k recommended songs for the given user profile."""
         # TODO: Implement recommendation logic
         return self.songs[:k]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
+        """Return a short explanation for why a song was recommended."""
         # TODO: Implement explanation logic
         return "Explanation placeholder"
 
 def load_songs(csv_path: str) -> List[Dict]:
-    """
-    Loads songs from a CSV file.
-    Converts numeric columns to float/int for calculation.
-    Required by src/main.py
-    """
+    """Load songs from CSV and convert numeric fields to Python numeric types."""
     songs = []
     numeric_fields = {
         'id': int,
@@ -81,16 +80,7 @@ def load_songs(csv_path: str) -> List[Dict]:
         return []
 
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
-    """
-    Scores a single song based on user preferences.
-    Returns (total_score, list_of_reasons).
-    
-    Scoring rules:
-    - Genre match: +2.0 points
-    - Mood match: +1.0 point
-    - Energy closeness: weighted by 1.5
-    - Acousticness preference: weighted by 1.0
-    """
+    """Score one song against user preferences and return score plus reason strings."""
     score = 0.0
     reasons = []
     
@@ -126,12 +116,7 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     return score, reasons
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
-    """
-    Functional implementation of the recommendation logic.
-    Required by src/main.py
-    
-    Returns list of (song_dict, score, explanation_string) tuples sorted by score descending.
-    """
+    """Return top-k songs sorted by score with a human-readable explanation string."""
     # Score all songs and collect results
     scored_songs = []
     for song in songs:
