@@ -36,3 +36,55 @@ I switched the terminal output to a table so it is easier to read.
 The screenshot below shows the new format with rank, song info, score, and reasons all in one place.
 
 ![Tabulate output screenshot](tabulate_output.png)
+
+## Advanced Dataset and Scoring Changes
+
+### What changed in the dataset
+
+I expanded the catalog from 18 songs to 100 songs and introduced advanced features to make personalization richer:
+
+- popularity (0-100)
+- release_decade (e.g., 1970, 1980, 1990, 2000, 2010, 2020)
+- mood_tags (multi-tag text like `bright|feel-good|sunny`)
+- instrumentalness (0.0-1.0)
+- liveness (0.0-1.0)
+- speechiness (0.0-1.0)
+- musical_key (e.g., C, F#, A)
+- time_signature (3, 4, 5, 7)
+
+These features make the recommendations less one-dimensional, especially in edge cases where genre or mood alone is not enough.
+
+### New math-based scoring rules
+
+In addition to genre, mood, energy, and acousticness, the recommender now applies these quantitative rules:
+
+- Popularity boost:
+	popularity_score = (popularity / 100) * 1.5
+- Era fit based on nearest preferred decade:
+	decade_closeness = max(0, 1 - (nearest_decade_gap / 60))
+	decade_score = decade_closeness * 1.4
+- Mood-tag overlap (Jaccard-style):
+	tag_similarity = |target_tags ∩ song_tags| / |target_tags ∪ song_tags|
+	tag_score = tag_similarity * 1.6
+- Instrumental preference:
+	if likes_acoustic: instrumental_score = instrumentalness * 0.9
+	else: instrumental_score = (1 - instrumentalness) * 0.9
+- Liveness fit:
+	liveness_score = max(0, 1 - abs(song_liveness - target_liveness)) * 0.8
+- Speechiness tolerance:
+	over_tolerance = max(0, speechiness - tolerance)
+	speechiness_score = max(0, 1 - (2 * over_tolerance)) * 0.9
+- Optional rhythmic bonus:
+	+0.4 if time_signature matches the preferred_time_signature
+
+### Impact on recommendation behavior
+
+The upgraded model produces recommendations that are more explainable and stylistically nuanced:
+
+- Popular tracks now get a controlled advantage, but cannot dominate by popularity alone.
+- Users with nostalgic or era-driven preferences are better represented through decade matching.
+- Songs with semantically aligned mood tags (not just exact mood label matches) are rewarded.
+- Acoustic vs vocal-forward balance is now captured by instrumentalness, not only acousticness.
+- Speech-heavy tracks are penalized for users who prefer less spoken-word content.
+
+Overall, the new feature set reduces brittle behavior in adversarial profiles and makes top-k results feel more like realistic playlist curation.

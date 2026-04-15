@@ -1,19 +1,101 @@
-id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
-1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18
-2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
-3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
-4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
-5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05
-6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
-7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
-8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
-9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
-10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
-11,Moonlit Prelude,Aria North,classical,serene,0.18,66,0.42,0.12,0.97
-12,City Cipher,Byte Rhythm,hip hop,energetic,0.86,96,0.63,0.91,0.08
-13,River Lanterns,Delta Roots,folk,nostalgic,0.33,84,0.58,0.47,0.85
-14,Neon Horizon,Pulse Theory,edm,euphoric,0.95,128,0.79,0.89,0.04
-15,Back Alley Brass,Blue Harbor,blues,reflective,0.41,88,0.51,0.39,0.73
-16,Iron Sky,Black Circuit,metal,dark,0.97,168,0.36,0.72,0.02
-17,Summit Dance,Marigold Wave,reggae,warm,0.55,102,0.71,0.68,0.46
-18,Golden Hour Glow,Juniper Soul,soul,uplifting,0.69,112,0.88,0.77,0.24
+id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness,popularity,release_decade,mood_tags,instrumentalness,liveness,speechiness,musical_key,time_signature
+1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18,48,1990,bright|feel-good|sunny,0.23,0.28,0.09,F,4
+2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71,61,2010,calm|study|laid-back,0.42,0.51,0.16,A,5
+3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10,74,1970,driving|power|adrenaline,0.61,0.74,0.23,C#,7
+4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86,87,1990,calm|study|laid-back,0.80,0.20,0.30,F,3
+5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05,100,2010,driving|power|adrenaline,0.08,0.43,0.37,A,4
+6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92,47,1970,calm|study|laid-back,0.27,0.66,0.44,C#,5
+7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89,60,1990,easy|smooth|gentle,0.46,0.12,0.51,F,7
+8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22,73,2010,noir|late-night|brooding,0.65,0.35,0.58,A,3
+9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78,86,1970,study|minimal|steady,0.84,0.58,0.03,C#,4
+10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35,99,1990,bright|feel-good|sunny,0.12,0.81,0.10,F,5
+11,Moonlit Prelude,Aria North,classical,serene,0.18,66,0.42,0.12,0.97,46,2010,peaceful|ambient|still,0.31,0.27,0.17,A,7
+12,City Cipher,Byte Rhythm,hip hop,energetic,0.86,96,0.63,0.91,0.08,59,1970,workout|fast|hype,0.50,0.50,0.24,C#,3
+13,River Lanterns,Delta Roots,folk,nostalgic,0.33,84,0.58,0.47,0.85,72,2000,retro|memory|warm,0.69,0.73,0.31,F,4
+14,Neon Horizon,Pulse Theory,edm,euphoric,0.95,128,0.79,0.89,0.04,85,2010,peak|festival|hands-up,0.88,0.19,0.38,A,5
+15,Back Alley Brass,Blue Harbor,blues,reflective,0.41,88,0.51,0.39,0.73,98,1980,introspective|lyrical|late-night,0.16,0.42,0.45,C#,7
+16,Iron Sky,Black Circuit,metal,dark,0.97,168,0.36,0.72,0.02,45,2000,heavy|ominous|shadow,0.35,0.65,0.52,F,3
+17,Summit Dance,Marigold Wave,reggae,warm,0.55,102,0.71,0.68,0.46,58,2010,cozy|organic|golden,0.54,0.11,0.59,A,4
+18,Golden Hour Glow,Juniper Soul,soul,uplifting,0.69,112,0.88,0.77,0.24,71,1970,optimistic|inspiring|rise,0.73,0.34,0.04,C#,5
+19,Parallel Clouds 019,Amber Cartel,synthwave,nostalgic,0.23,160,0.51,0.25,0.56,84,2000,retro|memory|warm,0.92,0.57,0.11,F,7
+20,Velvet Algorithms 020,Neon Echo,edm,happy,0.60,171,0.80,0.56,0.73,97,2010,bright|feel-good|sunny,0.20,0.80,0.18,A,3
+21,Subway Aurora 021,Paper Lanterns,rnb,nostalgic,0.97,71,0.35,0.87,0.90,44,1980,retro|memory|warm,0.39,0.26,0.25,C#,4
+22,Heatmap Semaphore 022,Slow Stereo,rock,happy,0.56,82,0.64,0.45,0.17,57,1990,bright|feel-good|sunny,0.58,0.49,0.32,F,5
+23,Cassette Hearts 023,Byte Rhythm,classical,nostalgic,0.93,93,0.22,0.76,0.34,70,2020,retro|memory|warm,0.77,0.72,0.39,A,7
+24,Granite Heartbeat 024,Blue Harbor,metal,happy,0.52,104,0.48,0.34,0.51,83,1970,bright|feel-good|sunny,0.05,0.18,0.46,C#,3
+25,Neural Sunrise 025,Juniper Soul,drum and bass,nostalgic,0.89,115,0.77,0.65,0.68,96,2000,retro|memory|warm,0.24,0.41,0.53,F,4
+26,Skyline Syntax 026,Fjord Static,jazz,happy,0.48,126,0.32,0.23,0.85,43,2010,bright|feel-good|sunny,0.43,0.64,0.60,A,5
+27,Copper Daydream 027,LoRoom,folk,nostalgic,0.85,137,0.61,0.54,0.12,56,1980,retro|memory|warm,0.62,0.10,0.05,C#,7
+28,Afterglow Pulse 028,Max Pulse,soul,happy,0.44,148,0.90,0.85,0.29,69,1990,bright|feel-good|sunny,0.81,0.33,0.12,F,3
+29,Parallel Clouds 029,Indigo Parade,lofi,nostalgic,0.81,159,0.45,0.43,0.46,82,2020,retro|memory|warm,0.09,0.56,0.19,A,4
+30,Velvet Algorithms 030,Delta Roots,indie pop,happy,0.40,170,0.74,0.74,0.63,95,1970,bright|feel-good|sunny,0.28,0.79,0.26,C#,5
+31,Subway Aurora 031,Black Circuit,blues,nostalgic,0.77,70,0.29,0.32,0.80,42,2000,retro|memory|warm,0.47,0.25,0.33,F,7
+32,Heatmap Semaphore 032,Nova Cast,house,happy,0.36,81,0.58,0.63,0.07,55,2010,bright|feel-good|sunny,0.66,0.48,0.40,A,3
+33,Cassette Hearts 033,Luna District,ambient,nostalgic,0.73,92,0.87,0.21,0.24,68,1980,retro|memory|warm,0.85,0.71,0.47,C#,4
+34,Granite Heartbeat 034,Voltline,hip hop,happy,0.32,103,0.42,0.52,0.41,81,1990,bright|feel-good|sunny,0.13,0.17,0.54,F,5
+35,Neural Sunrise 035,Orbit Bloom,reggae,nostalgic,0.69,114,0.71,0.83,0.58,94,2020,retro|memory|warm,0.32,0.40,0.61,A,7
+36,Skyline Syntax 036,Aria North,pop,happy,0.28,125,0.26,0.41,0.75,41,1970,bright|feel-good|sunny,0.51,0.63,0.06,C#,3
+37,Copper Daydream 037,Pulse Theory,synthwave,nostalgic,0.65,136,0.55,0.72,0.92,54,2000,retro|memory|warm,0.70,0.09,0.13,F,4
+38,Afterglow Pulse 038,Marigold Wave,edm,happy,0.24,147,0.84,0.30,0.19,67,2010,bright|feel-good|sunny,0.89,0.32,0.20,A,5
+39,Parallel Clouds 039,Amber Cartel,rnb,nostalgic,0.61,158,0.39,0.61,0.36,80,1980,retro|memory|warm,0.17,0.55,0.27,C#,7
+40,Velvet Algorithms 040,Neon Echo,rock,happy,0.98,169,0.68,0.92,0.53,93,1990,bright|feel-good|sunny,0.36,0.78,0.34,F,3
+41,Subway Aurora 041,Paper Lanterns,classical,nostalgic,0.57,69,0.23,0.50,0.70,40,2020,retro|memory|warm,0.55,0.24,0.41,A,4
+42,Heatmap Semaphore 042,Slow Stereo,metal,happy,0.94,80,0.52,0.81,0.87,53,1970,bright|feel-good|sunny,0.74,0.47,0.48,C#,5
+43,Cassette Hearts 043,Byte Rhythm,drum and bass,nostalgic,0.53,91,0.81,0.39,0.14,66,2000,retro|memory|warm,0.93,0.70,0.55,F,7
+44,Granite Heartbeat 044,Blue Harbor,jazz,happy,0.90,102,0.36,0.70,0.31,79,2010,bright|feel-good|sunny,0.21,0.16,0.62,A,3
+45,Neural Sunrise 045,Juniper Soul,folk,nostalgic,0.49,113,0.65,0.28,0.48,92,1980,retro|memory|warm,0.40,0.39,0.07,C#,4
+46,Skyline Syntax 046,Fjord Static,soul,happy,0.86,124,0.22,0.59,0.65,39,1990,bright|feel-good|sunny,0.59,0.62,0.14,F,5
+47,Copper Daydream 047,LoRoom,lofi,nostalgic,0.45,135,0.49,0.90,0.82,52,2020,retro|memory|warm,0.78,0.08,0.21,A,7
+48,Afterglow Pulse 048,Max Pulse,indie pop,happy,0.82,146,0.78,0.48,0.09,65,1970,bright|feel-good|sunny,0.06,0.31,0.28,C#,3
+49,Parallel Clouds 049,Indigo Parade,blues,nostalgic,0.41,157,0.33,0.79,0.26,78,2000,retro|memory|warm,0.25,0.54,0.35,F,4
+50,Velvet Algorithms 050,Delta Roots,house,happy,0.78,168,0.62,0.37,0.43,91,2010,bright|feel-good|sunny,0.44,0.77,0.42,A,5
+51,Subway Aurora 051,Black Circuit,ambient,nostalgic,0.37,68,0.91,0.68,0.60,38,1980,retro|memory|warm,0.63,0.23,0.49,C#,7
+52,Heatmap Semaphore 052,Nova Cast,hip hop,happy,0.74,79,0.46,0.26,0.77,51,1990,bright|feel-good|sunny,0.82,0.46,0.56,F,3
+53,Cassette Hearts 053,Luna District,reggae,nostalgic,0.33,90,0.75,0.57,0.04,64,2020,retro|memory|warm,0.10,0.69,0.63,A,4
+54,Granite Heartbeat 054,Voltline,pop,happy,0.70,101,0.30,0.88,0.21,77,1970,bright|feel-good|sunny,0.29,0.15,0.08,C#,5
+55,Neural Sunrise 055,Orbit Bloom,synthwave,nostalgic,0.29,112,0.59,0.46,0.38,90,2000,retro|memory|warm,0.48,0.38,0.15,F,7
+56,Skyline Syntax 056,Aria North,edm,happy,0.66,123,0.88,0.77,0.55,37,2010,bright|feel-good|sunny,0.67,0.61,0.22,A,3
+57,Copper Daydream 057,Pulse Theory,rnb,nostalgic,0.25,134,0.43,0.35,0.72,50,1980,retro|memory|warm,0.86,0.07,0.29,C#,4
+58,Afterglow Pulse 058,Marigold Wave,rock,happy,0.62,145,0.72,0.66,0.89,63,1990,bright|feel-good|sunny,0.14,0.30,0.36,F,5
+59,Parallel Clouds 059,Amber Cartel,classical,nostalgic,0.98,156,0.27,0.24,0.16,76,2020,retro|memory|warm,0.33,0.53,0.43,A,7
+60,Velvet Algorithms 060,Neon Echo,metal,happy,0.58,167,0.56,0.55,0.33,89,1970,bright|feel-good|sunny,0.52,0.76,0.50,C#,3
+61,Subway Aurora 061,Paper Lanterns,drum and bass,nostalgic,0.95,67,0.85,0.86,0.50,36,2000,retro|memory|warm,0.71,0.22,0.57,F,4
+62,Heatmap Semaphore 062,Slow Stereo,jazz,happy,0.54,78,0.40,0.44,0.67,49,2010,bright|feel-good|sunny,0.90,0.45,0.02,A,5
+63,Cassette Hearts 063,Byte Rhythm,folk,nostalgic,0.91,89,0.69,0.75,0.84,62,1980,retro|memory|warm,0.18,0.68,0.09,C#,7
+64,Granite Heartbeat 064,Blue Harbor,soul,happy,0.50,100,0.24,0.33,0.11,75,1990,bright|feel-good|sunny,0.37,0.14,0.16,F,3
+65,Neural Sunrise 065,Juniper Soul,lofi,nostalgic,0.87,111,0.53,0.64,0.28,88,2020,retro|memory|warm,0.56,0.37,0.23,A,4
+66,Skyline Syntax 066,Fjord Static,indie pop,happy,0.46,122,0.82,0.22,0.45,35,1970,bright|feel-good|sunny,0.75,0.60,0.30,C#,5
+67,Copper Daydream 067,LoRoom,blues,nostalgic,0.83,133,0.37,0.53,0.62,48,2000,retro|memory|warm,0.94,0.06,0.37,F,7
+68,Afterglow Pulse 068,Max Pulse,house,happy,0.42,144,0.66,0.84,0.79,61,2010,bright|feel-good|sunny,0.22,0.29,0.44,A,3
+69,Parallel Clouds 069,Indigo Parade,ambient,nostalgic,0.79,155,0.22,0.42,0.06,74,1980,retro|memory|warm,0.41,0.52,0.51,C#,4
+70,Velvet Algorithms 070,Delta Roots,hip hop,happy,0.38,166,0.50,0.73,0.23,87,1990,bright|feel-good|sunny,0.60,0.75,0.58,F,5
+71,Subway Aurora 071,Black Circuit,reggae,nostalgic,0.75,66,0.79,0.31,0.40,100,2020,retro|memory|warm,0.79,0.21,0.03,A,7
+72,Heatmap Semaphore 072,Nova Cast,pop,happy,0.34,77,0.34,0.62,0.57,47,1970,bright|feel-good|sunny,0.07,0.44,0.10,C#,3
+73,Cassette Hearts 073,Luna District,synthwave,nostalgic,0.71,88,0.63,0.20,0.74,60,2000,retro|memory|warm,0.26,0.67,0.17,F,4
+74,Granite Heartbeat 074,Voltline,edm,happy,0.30,99,0.22,0.51,0.91,73,2010,bright|feel-good|sunny,0.45,0.13,0.24,A,5
+75,Neural Sunrise 075,Orbit Bloom,rnb,nostalgic,0.67,110,0.47,0.82,0.18,86,1980,retro|memory|warm,0.64,0.36,0.31,C#,7
+76,Skyline Syntax 076,Aria North,rock,happy,0.26,121,0.76,0.40,0.35,99,1990,bright|feel-good|sunny,0.83,0.59,0.38,F,3
+77,Copper Daydream 077,Pulse Theory,classical,nostalgic,0.63,132,0.31,0.71,0.52,46,2020,retro|memory|warm,0.11,0.05,0.45,A,4
+78,Afterglow Pulse 078,Marigold Wave,metal,happy,0.22,143,0.60,0.29,0.69,59,1970,bright|feel-good|sunny,0.30,0.28,0.52,C#,5
+79,Parallel Clouds 079,Amber Cartel,drum and bass,nostalgic,0.59,154,0.89,0.60,0.86,72,2000,retro|memory|warm,0.49,0.51,0.59,F,7
+80,Velvet Algorithms 080,Neon Echo,jazz,happy,0.96,165,0.44,0.91,0.13,85,2010,bright|feel-good|sunny,0.68,0.74,0.04,A,3
+81,Subway Aurora 081,Paper Lanterns,folk,nostalgic,0.55,65,0.73,0.49,0.30,98,1980,retro|memory|warm,0.87,0.20,0.11,C#,4
+82,Heatmap Semaphore 082,Slow Stereo,soul,happy,0.92,76,0.28,0.80,0.47,45,1990,bright|feel-good|sunny,0.15,0.43,0.18,F,5
+83,Cassette Hearts 083,Byte Rhythm,lofi,nostalgic,0.51,87,0.57,0.38,0.64,58,2020,retro|memory|warm,0.34,0.66,0.25,A,7
+84,Granite Heartbeat 084,Blue Harbor,indie pop,happy,0.88,98,0.86,0.69,0.81,71,1970,bright|feel-good|sunny,0.53,0.12,0.32,C#,3
+85,Neural Sunrise 085,Juniper Soul,blues,nostalgic,0.47,109,0.41,0.27,0.08,84,2000,retro|memory|warm,0.72,0.35,0.39,F,4
+86,Skyline Syntax 086,Fjord Static,house,happy,0.84,120,0.70,0.58,0.25,97,2010,bright|feel-good|sunny,0.91,0.58,0.46,A,5
+87,Copper Daydream 087,LoRoom,ambient,nostalgic,0.43,131,0.25,0.89,0.42,44,1980,retro|memory|warm,0.19,0.81,0.53,C#,7
+88,Afterglow Pulse 088,Max Pulse,hip hop,happy,0.80,142,0.54,0.47,0.59,57,1990,bright|feel-good|sunny,0.38,0.27,0.60,F,3
+89,Parallel Clouds 089,Indigo Parade,reggae,nostalgic,0.39,153,0.83,0.78,0.76,70,2020,retro|memory|warm,0.57,0.50,0.05,A,4
+90,Velvet Algorithms 090,Delta Roots,pop,happy,0.76,164,0.38,0.36,0.03,83,1970,bright|feel-good|sunny,0.76,0.73,0.12,C#,5
+91,Subway Aurora 091,Black Circuit,synthwave,nostalgic,0.35,64,0.67,0.67,0.20,96,2000,retro|memory|warm,0.04,0.19,0.19,F,7
+92,Heatmap Semaphore 092,Nova Cast,edm,happy,0.72,75,0.22,0.25,0.37,43,2010,bright|feel-good|sunny,0.23,0.42,0.26,A,3
+93,Cassette Hearts 093,Luna District,rnb,nostalgic,0.31,86,0.51,0.56,0.54,56,1980,retro|memory|warm,0.42,0.65,0.33,C#,4
+94,Granite Heartbeat 094,Voltline,rock,happy,0.68,97,0.80,0.87,0.71,69,1990,bright|feel-good|sunny,0.61,0.11,0.40,F,5
+95,Neural Sunrise 095,Orbit Bloom,classical,nostalgic,0.27,108,0.35,0.45,0.88,82,2020,retro|memory|warm,0.80,0.34,0.47,A,7
+96,Skyline Syntax 096,Aria North,metal,happy,0.64,119,0.64,0.76,0.15,95,1970,bright|feel-good|sunny,0.08,0.57,0.54,C#,3
+97,Copper Daydream 097,Pulse Theory,drum and bass,nostalgic,0.23,130,0.22,0.34,0.32,42,2000,retro|memory|warm,0.27,0.80,0.61,F,4
+98,Afterglow Pulse 098,Marigold Wave,jazz,happy,0.60,141,0.48,0.65,0.49,55,2010,bright|feel-good|sunny,0.46,0.26,0.06,A,5
+99,Parallel Clouds 099,Amber Cartel,folk,nostalgic,0.97,152,0.77,0.23,0.66,68,1980,retro|memory|warm,0.65,0.49,0.13,C#,7
+100,Velvet Algorithms 100,Neon Echo,soul,happy,0.56,163,0.32,0.54,0.83,81,1990,bright|feel-good|sunny,0.84,0.72,0.20,F,3
