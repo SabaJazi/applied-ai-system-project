@@ -33,9 +33,9 @@ Profiles tested:
 ## New Tabulate Output
 
 I switched the terminal output to a table so it is easier to read.
-The screenshot below shows the new format with rank, song info, score, and reasons all in one place.
+The screenshot below shows the updated format with advanced columns (popularity, decade, mood tags, instrumentalness, liveness, speechiness, and time signature) in addition to score and reasons.
 
-![Tabulate output screenshot](tabulate_output.png)
+![Updated tabulate output screenshot](tabulate_output_new.png)
 
 ## Advanced Dataset and Scoring Changes
 

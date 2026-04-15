@@ -55,6 +55,26 @@ USER_PROFILES = {
         "target_energy": 0.70,
         "likes_acoustic": False,
     },
+    "Era-Tuned Nostalgic Mix": {
+        "favorite_genre": "soul",
+        "favorite_mood": "nostalgic",
+        "target_energy": 0.55,
+        "likes_acoustic": True,
+        "preferred_decades": [1970, 1980, 1990],
+        "preferred_mood_tags": ["retro", "memory", "analog", "warm"],
+        "speechiness_tolerance": 0.28,
+        "preferred_time_signature": 4,
+    },
+    "Modern Festival Driver": {
+        "favorite_genre": "edm",
+        "favorite_mood": "euphoric",
+        "target_energy": 0.92,
+        "likes_acoustic": False,
+        "preferred_decades": [2010, 2020],
+        "preferred_mood_tags": ["festival", "anthemic", "peak", "hype"],
+        "speechiness_tolerance": 0.45,
+        "preferred_time_signature": 4,
+    },
     # "Adversarial - Missing Mood": {
     #     "favorite_genre": "rock",
     #     "favorite_mood": "nonexistent_mood",
@@ -142,7 +162,22 @@ def _render_ascii_table(headers, rows):
 
 def format_recommendations_table(recommendations):
     """Format recommendations as a readable table including explanation reasons."""
-    headers = ["Rank", "Title", "Artist", "Genre", "Mood", "Score", "Reasons"]
+    headers = [
+        "Rank",
+        "Title",
+        "Artist",
+        "Genre",
+        "Mood",
+        "Score",
+        "Popularity",
+        "Decade",
+        "Mood Tags",
+        "Instr",
+        "Live",
+        "Speech",
+        "TS",
+        "Reasons",
+    ]
     rows = []
 
     for rank, rec in enumerate(recommendations, 1):
@@ -157,6 +192,13 @@ def format_recommendations_table(recommendations):
                 song["genre"],
                 song["mood"],
                 f"{score:.2f}",
+                song.get("popularity", "-"),
+                song.get("release_decade", "-"),
+                song.get("mood_tags", "-"),
+                f"{song.get('instrumentalness', '-')}",
+                f"{song.get('liveness', '-')}",
+                f"{song.get('speechiness', '-')}",
+                song.get("time_signature", "-"),
                 reasons_cell,
             ]
         )
@@ -174,7 +216,7 @@ def main() -> None:
 
     # Pick one profile to run in the CLI.
     # active_profile_name = "High-Energy Pop"
-    active_profile_name = "Adversarial - Missing Genre"
+    active_profile_name = "Era-Tuned Nostalgic Mix"
 
     user_prefs = USER_PROFILES[active_profile_name]
 
@@ -190,6 +232,10 @@ def main() -> None:
     print(f"  • Mood: {user_prefs['favorite_mood']}")
     print(f"  • Target Energy: {user_prefs['target_energy']}")
     print(f"  • Likes Acoustic: {user_prefs['likes_acoustic']}")
+    print(f"  • Preferred Decades: {user_prefs.get('preferred_decades', 'auto')}")
+    print(f"  • Preferred Mood Tags: {user_prefs.get('preferred_mood_tags', 'auto')}")
+    print(f"  • Speechiness Tolerance: {user_prefs.get('speechiness_tolerance', 0.35)}")
+    print(f"  • Preferred Time Signature: {user_prefs.get('preferred_time_signature', 'any')}")
     print("\n" + "-"*80)
     print(f"Top {len(recommendations)} Recommendations:\n")
 
