@@ -2,70 +2,48 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
+This project builds a simple, explainable music recommender for a small song catalog.
+The system scores each song against a user profile, ranks songs by score, and returns the top results.
+I tested normal and adversarial profiles to see where the logic works well and where bias appears.
 
 ---
 
 ## How The System Works
-Major streaming platforms like YouTube and Spotify utilize a multi-stage hybrid pipeline that integrates collaborative filtering, recommending items based on similar user behavior, with content-based filtering, which matches item metadata to a user's established preferences. The process begins with a retrieval stage (candidate generation) to narrow billions of items down to a few hundred using user-item embeddings, followed by a sophisticated ranking stage that scores these candidates based on deep behavioral signals like watch time and engagement. To ensure long-term satisfaction rather than just immediate clicks, the system applies a final layer of re-ranking to enforce business rules, diversity, and content safety, constantly refining itself through continuous learning and A/B testing.
 
-Explain your design in plain language.
-What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo 
+This recommender uses a weighted scoring rule.
 
-Algorithm Recipe:
+### Song features used
 
-1-We represent each song with:
-- Categorical features: genre, mood
-- Numeric features: energy, tempo_bpm, valence, danceability, acousticness
-2-We build a user preference profile with:
-- Preferred genre (e.g., lofi)
-- Preferred mood (e.g., chill)
-- Numeric targets (p_f) for each numeric feature, each scaled to ([0,1])
-3-Compute a per-feature score for each song.
+- Genre
+- Mood
+- Energy
+- Acousticness
 
-4-Combine feature scores into one total song score using weights.
+### User profile fields
 
-5-Rank songs by total score and return top (K).
+- favorite_genre
+- favorite_mood
+- target_energy
+- likes_acoustic
 
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-Scoring Rule (one song)
-For a numeric feature (f), we score by closeness to the user target, not by “higher is better”:
+### Scoring logic (plain language)
 
-sf(i)=1−∣xi,f −pf∣
+Each song gets points from four checks:
 
-- (x_{i,f}): song (i)'s normalized value for feature (f)
-- (p_f): user preference for feature (f)
-- Since both are in ([0,1]), (s_f(i)\in[0,1])
-- Closer means larger score, exact match gives (1)
+1. Genre match: +1 point
+2. Mood match: +1 point
+3. Energy closeness: up to +3 points
+4. Acoustic preference fit: up to +1 point
 
+Then all songs are sorted by total score, and the top K are returned.
 
-- How do you choose which songs to recommend
+### Why some songs repeat
 
-Ranking Rule (list of songs)
+Energy currently has the biggest weight, so high-energy songs can appear often across profiles.
+That is why songs like Gym Hero can keep showing up for users who ask for Happy Pop.
 
-After scoring all songs:
+### Screenshots
 
-Sort by (S(i)) descending.
-Remove songs the user already consumed (if you track history).
-Return top (K) songs.
-Optional tie-breakers:
-Higher genre match first
-Then closer energy/tempo
-Then diversity rule (avoid too many songs from same artist)
-
-
-You can include a simple diagram or bullet list if helpful.
 ![](flowchart_v2.svg)
 
 Example of normal user profile output:
@@ -84,12 +62,13 @@ Example of Edge/Adversarial user profile outputs:
 
 1. Create a virtual environment (optional but recommended):
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
-   .venv\Scripts\activate         # Windows
+```bash
+python -m venv .venv
+source .venv/bin/activate      # Mac or Linux
+.venv\Scripts\activate         # Windows
+```
 
-2. Install dependencies
+2. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -115,25 +94,20 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+- I reduced genre weight from 2.0 to 1.0.
+- I increased energy weight from 1.5 to 3.0.
+- I tested six profiles, including adversarial profiles with missing or conflicting preferences.
+- I compared profile pairs to see how ranking changed.
+- I observed that high-energy songs were repeatedly promoted across multiple profiles.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+- The catalog is very small (18 songs), so coverage is limited.
+- Exact genre matching is strict, so related genres (for example, pop vs indie pop) do not partially match.
+- Energy can dominate ranking and reduce diversity in top results.
+- The system does not use lyrics, listening history, or context.
 
 ---
 
