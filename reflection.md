@@ -41,7 +41,7 @@ Before (earlier tabulate view):
 
 After (updated tabulate view with advanced columns: popularity, decade, mood tags, instrumentalness, liveness, speechiness, and time signature):
 
-![Updated tabulate output screenshot](tabulate_output_new.png)
+![Updated tabulate output screenshot](tabulate_output_new_v2.png)
 
 ## Advanced Dataset and Scoring Changes
 
