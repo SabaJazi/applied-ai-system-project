@@ -7,6 +7,7 @@ __pycache__/
 .venv/
 env/
 venv/
+AIM3/
 
 # OS files
 .DS_Store

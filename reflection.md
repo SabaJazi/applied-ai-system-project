@@ -29,3 +29,10 @@ Profiles tested:
 ## Plain-language takeaway
 
 "Gym Hero" keeps showing up for users who want "Happy Pop" because it has very high energy and very low acousticness, and those two factors are heavily rewarded in the current formula. Even when mood is imperfect, the energy bonus is large enough to keep it near the top.
+
+## New Tabulate Output
+
+I switched the terminal output to a table so it is easier to read.
+The screenshot below shows the new format with rank, song info, score, and reasons all in one place.
+
+![Tabulate output screenshot](tabulate_output.png)

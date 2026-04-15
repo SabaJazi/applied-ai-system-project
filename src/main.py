@@ -9,7 +9,13 @@ You will implement the functions in recommender.py:
 - recommend_songs
 """
 
+from textwrap import wrap
+from importlib.util import find_spec
+
 from recommender import load_songs, recommend_songs
+
+
+TABULATE_AVAILABLE = find_spec("tabulate") is not None
 
 
 USER_PROFILES = {
@@ -106,6 +112,63 @@ USER_PROFILES = {
 }
 
 
+def _render_ascii_table(headers, rows):
+    """Render a plain ASCII table for terminals without external dependencies."""
+    string_rows = [[str(cell) for cell in row] for row in rows]
+    widths = [len(h) for h in headers]
+
+    for row in string_rows:
+        for i, cell in enumerate(row):
+            max_line_width = max(len(line) for line in cell.splitlines()) if cell else 0
+            widths[i] = max(widths[i], max_line_width)
+
+    divider = "+" + "+".join("-" * (w + 2) for w in widths) + "+"
+    header_line = "| " + " | ".join(h.ljust(widths[i]) for i, h in enumerate(headers)) + " |"
+
+    table_lines = [divider, header_line, divider]
+    for row in string_rows:
+        cell_lines = [cell.splitlines() or [""] for cell in row]
+        row_height = max(len(lines) for lines in cell_lines)
+
+        for line_idx in range(row_height):
+            line_parts = []
+            for col_idx, lines in enumerate(cell_lines):
+                line_text = lines[line_idx] if line_idx < len(lines) else ""
+                line_parts.append(line_text.ljust(widths[col_idx]))
+            table_lines.append("| " + " | ".join(line_parts) + " |")
+    table_lines.append(divider)
+    return "\n".join(table_lines)
+
+
+def format_recommendations_table(recommendations):
+    """Format recommendations as a readable table including explanation reasons."""
+    headers = ["Rank", "Title", "Artist", "Genre", "Mood", "Score", "Reasons"]
+    rows = []
+
+    for rank, rec in enumerate(recommendations, 1):
+        song, score, explanation = rec
+        wrapped_reasons = wrap(explanation, width=58) or [""]
+        reasons_cell = "\n".join(wrapped_reasons)
+        rows.append(
+            [
+                rank,
+                song["title"],
+                song["artist"],
+                song["genre"],
+                song["mood"],
+                f"{score:.2f}",
+                reasons_cell,
+            ]
+        )
+
+    if TABULATE_AVAILABLE:
+        from tabulate import tabulate
+
+        return tabulate(rows, headers=headers, tablefmt="fancy_grid", stralign="left")
+
+    return _render_ascii_table(headers, rows)
+
+
 def main() -> None:
     songs = load_songs("data/songs.csv") 
 
@@ -130,19 +193,9 @@ def main() -> None:
     print("\n" + "-"*80)
     print(f"Top {len(recommendations)} Recommendations:\n")
 
-    for rank, rec in enumerate(recommendations, 1):
-        song, score, explanation = rec
-        
-        print(f"{rank}. {song['title']}")
-        print(f"   Artist: {song['artist']} | Genre: {song['genre']} | Mood: {song['mood']}")
-        print(f"   Score: {score:.2f}/5.5")
-        
-        # Parse and format reasons
-        reasons = explanation.split(" | ")
-        print(f"   Why:")
-        for reason in reasons:
-            print(f"      ✓ {reason}")
-        print()
+    print(format_recommendations_table(recommendations))
+    if not TABULATE_AVAILABLE:
+        print("\nTip: Install 'tabulate' for prettier tables: pip install tabulate")
 
     print("="*80 + "\n")
 
