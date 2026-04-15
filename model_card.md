@@ -63,6 +63,8 @@ Prompts:
 
 Where the system struggles or behaves unfairly. 
 
+One weakness I found is that the scoring can over-prioritize energy similarity compared to other preferences. In practice, users who clearly prefer a specific genre can still receive songs outside that genre if the energy value is closer to their target. The model also uses exact genre matching, so related labels such as "pop" and "indie pop" are treated as completely different categories. This can unintentionally narrow recommendations and create a small filter bubble around numeric features instead of the full musical taste of the user.
+
 Prompts:  
 
 - Features it does not consider  
@@ -75,6 +77,8 @@ Prompts:
 ## 7. Evaluation  
 
 How you checked whether the recommender behaved as expected. 
+
+I tested six user profiles: High-Energy Pop, Chill Lofi, Deep Intense Rock, Adversarial - High Energy Sad Acoustic, Adversarial - Chill Max Energy, and Adversarial - Missing Genre. I looked at the top five songs for each profile and checked whether they matched the profile's genre, mood, energy target, and acoustic preference in plain language. The biggest surprise was how often songs like "Gym Hero" stayed near the top for high-energy users, even when mood or acoustic preference did not really fit, because the strong energy score keeps pushing it up. Another surprise was that when genre was missing, the system quickly fell back to energy and low acousticness, which still produced plausible songs but less clearly personalized taste. This made it clear that our current weighting system is consistent, but it can over-reward energy and create repeated recommendations across different profiles.
 
 Prompts:  
 
