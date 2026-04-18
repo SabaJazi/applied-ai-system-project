@@ -2,6 +2,11 @@ from typing import List, Dict, Tuple, Optional, Any
 from dataclasses import dataclass
 import csv
 
+STATE_DEEP_FOCUS = "Deep Focus"
+STATE_AEROBIC_STEADY = "Aerobic Steady-State"
+STATE_HIIT_PEAK = "HIIT Peak"
+STATE_ACTIVE_RECOVERY = "Active Recovery"
+
 @dataclass
 class Song:
     """
@@ -43,6 +48,30 @@ class UserProfile:
     preferred_time_signature: Optional[int] = None
 
 
+@dataclass
+class ActivityInput:
+    """Biometric input used by the primary activity-state classifier."""
+    heart_rate_bpm: float
+    velocity_mps: float
+
+
+@dataclass
+class ActivityStateResult:
+    """Classifier output containing inferred state and confidence."""
+    state: str
+    confidence: float
+    rationale: str
+
+
+@dataclass
+class SongConstraints:
+    """State-dependent target values used to adapt song ranking."""
+    min_valence: float
+    max_tempo_bpm: float
+    min_acousticness: float
+    target_energy: float
+
+
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
         return float(value)
@@ -55,6 +84,134 @@ def _safe_int(value: Any, default: int = 0) -> int:
         return int(value)
     except (TypeError, ValueError):
         return default
+
+
+def classify_activity_state(activity_input: ActivityInput) -> ActivityStateResult:
+    """
+    Rule-based baseline classifier for activity state.
+
+    This baseline can later be swapped for a trained RF/GBM model while keeping
+    the same output contract.
+    """
+    hr = _safe_float(activity_input.heart_rate_bpm, 0.0)
+    velocity = _safe_float(activity_input.velocity_mps, 0.0)
+
+    # Priority edge case requested by design:
+    # high heart rate + low velocity likely indicates stress/focus state.
+    if hr >= 145.0 and velocity < 1.2:
+        return ActivityStateResult(
+            state=STATE_DEEP_FOCUS,
+            confidence=0.85,
+            rationale=f"High HR ({hr:.1f}) with low velocity ({velocity:.2f})",
+        )
+
+    # High exertion movement.
+    if hr >= 160.0 and velocity >= 2.8:
+        return ActivityStateResult(
+            state=STATE_HIIT_PEAK,
+            confidence=0.93,
+            rationale=f"Very high HR ({hr:.1f}) and high velocity ({velocity:.2f})",
+        )
+
+    # Recovery: lower movement and lower cardiac load.
+    if hr < 110.0 and velocity < 1.3:
+        return ActivityStateResult(
+            state=STATE_ACTIVE_RECOVERY,
+            confidence=0.88,
+            rationale=f"Low HR ({hr:.1f}) and gentle velocity ({velocity:.2f})",
+        )
+
+    # Moderate sustained physical effort.
+    if 110.0 <= hr < 160.0 and 1.2 <= velocity < 2.8:
+        return ActivityStateResult(
+            state=STATE_AEROBIC_STEADY,
+            confidence=0.81,
+            rationale=f"Moderate HR ({hr:.1f}) and steady velocity ({velocity:.2f})",
+        )
+
+    # Fallback logic for mixed signals.
+    if hr >= 150.0:
+        return ActivityStateResult(
+            state=STATE_HIIT_PEAK,
+            confidence=0.65,
+            rationale=f"Elevated HR ({hr:.1f}) dominates ambiguous movement ({velocity:.2f})",
+        )
+
+    return ActivityStateResult(
+        state=STATE_AEROBIC_STEADY,
+        confidence=0.60,
+        rationale=f"Defaulting to steady-state for HR {hr:.1f}, velocity {velocity:.2f}",
+    )
+
+
+def map_state_to_constraints(state: str) -> SongConstraints:
+    """Map inferred activity state to target song constraints."""
+    if state == STATE_ACTIVE_RECOVERY:
+        return SongConstraints(
+            min_valence=0.70,
+            max_tempo_bpm=100.0,
+            min_acousticness=0.50,
+            target_energy=0.35,
+        )
+    if state == STATE_DEEP_FOCUS:
+        return SongConstraints(
+            min_valence=0.45,
+            max_tempo_bpm=115.0,
+            min_acousticness=0.35,
+            target_energy=0.45,
+        )
+    if state == STATE_HIIT_PEAK:
+        return SongConstraints(
+            min_valence=0.55,
+            max_tempo_bpm=190.0,
+            min_acousticness=0.00,
+            target_energy=0.92,
+        )
+
+    # STATE_AEROBIC_STEADY default mapping.
+    return SongConstraints(
+        min_valence=0.50,
+        max_tempo_bpm=140.0,
+        min_acousticness=0.20,
+        target_energy=0.65,
+    )
+
+
+def _score_constraints(song: Dict[str, Any], constraints: SongConstraints) -> Tuple[float, List[str]]:
+    """Compute additional score terms from state-derived song constraints."""
+    score = 0.0
+    reasons: List[str] = []
+
+    valence = _safe_float(song.get("valence", 0.5), 0.5)
+    if valence >= constraints.min_valence:
+        score += 0.7
+        reasons.append(f"Constraint valence >= {constraints.min_valence:.2f}: pass (+0.70)")
+    else:
+        reasons.append(f"Constraint valence >= {constraints.min_valence:.2f}: miss (+0.00)")
+
+    tempo = _safe_float(song.get("tempo_bpm", 120.0), 120.0)
+    if tempo <= constraints.max_tempo_bpm:
+        score += 0.7
+        reasons.append(f"Constraint tempo <= {constraints.max_tempo_bpm:.0f}: pass (+0.70)")
+    else:
+        reasons.append(f"Constraint tempo <= {constraints.max_tempo_bpm:.0f}: miss (+0.00)")
+
+    acousticness = _safe_float(song.get("acousticness", 0.5), 0.5)
+    if acousticness >= constraints.min_acousticness:
+        score += 0.7
+        reasons.append(f"Constraint acousticness >= {constraints.min_acousticness:.2f}: pass (+0.70)")
+    else:
+        reasons.append(f"Constraint acousticness >= {constraints.min_acousticness:.2f}: miss (+0.00)")
+
+    energy = _safe_float(song.get("energy", 0.5), 0.5)
+    energy_fit = max(0.0, 1.0 - abs(energy - constraints.target_energy))
+    energy_bonus = energy_fit * 1.2
+    score += energy_bonus
+    reasons.append(
+        f"State target energy ({energy:.2f} vs {constraints.target_energy:.2f}): (+{energy_bonus:.2f})"
+    )
+
+    return score, reasons
 
 
 def _extract_song_dict(song: Song) -> Dict[str, Any]:
@@ -331,3 +488,38 @@ def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tup
     
     # Return top k recommendations
     return scored_songs[:k]
+
+
+def recommend_songs_from_activity(
+    user_prefs: Dict,
+    songs: List[Dict],
+    activity_input: ActivityInput,
+    k: int = 5,
+) -> Tuple[ActivityStateResult, SongConstraints, List[Tuple[Dict, float, str]]]:
+    """
+    Classifier-first recommendation pipeline.
+
+    1) Classify activity state from BPM and velocity.
+    2) Map state to dynamic song targets.
+    3) Produce top-k songs with state-aware scoring.
+    """
+    state_result = classify_activity_state(activity_input)
+    constraints = map_state_to_constraints(state_result.state)
+
+    scored_songs: List[Tuple[Dict, float, str]] = []
+    for song in songs:
+        base_score, base_reasons = score_song(user_prefs, song)
+        state_score, state_reasons = _score_constraints(song, constraints)
+        total_score = base_score + state_score
+        explanation = " | ".join(
+            [
+                f"Activity state: {state_result.state} ({state_result.confidence:.2f})",
+                f"State rationale: {state_result.rationale}",
+            ]
+            + base_reasons
+            + state_reasons
+        )
+        scored_songs.append((song, total_score, explanation))
+
+    scored_songs.sort(key=lambda x: x[1], reverse=True)
+    return state_result, constraints, scored_songs[:k]
