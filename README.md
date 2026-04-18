@@ -142,7 +142,7 @@ classDiagram
 
 ### Screenshots
 
-![](assets/flowchart.png)
+<!-- ![](assets/flowchart.png) -->
 
 Example of normal user profile output:
 
